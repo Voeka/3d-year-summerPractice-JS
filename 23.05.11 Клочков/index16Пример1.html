@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snake</title>
+</head>
+<body>
+    
+<canvas id="canvas" width="400" height="400"></canvas>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+<script>
+
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    var width = canvas.width;
+    var height = canvas.height;
+
+    var blockSize = 10;
+    var widthInBlocks = width/blockSize;
+    var heightInBlocks = height/blockSize;
+
+    var score = 0;
+
+
+
+// Function
+    var drawBorder = function(){
+        ctx.fillStyle = 'Gray';
+        ctx.fillRect(0,0,width,blockSize);
+        ctx.fillRect(0,height-blockSize,width,blockSize);
+        ctx.fillRect(0,0,blockSize,height);
+        ctx.fillRect(width-blockSize,0,blockSize,height);
+    }
+
+    var drawScore = function(){
+        ctx.font = '20px Courier';
+        ctx.fillStyle = 'Black';
+        ctx.textAlign = 'left';
+        ctx.textBaseline = 'top';
+        ctx.fillText('Счёт: '+score,blockSize,blockSize);
+    }
+
+
+    var gameOver = function(){
+        clearInterval(intevalId);
+        ctx.font = '60px Courier';
+        ctx.fillStyle = 'black';
+        ctx.textAlign = 'center';
+        ctx.textBaseline='middle';
+        ctx.fillText('Конец игры',width/2,height/2);
+    }
+
+
+
+    // Вызов функций
+
+    drawScore();
+
+
+    drawBorder();
+    
+    // ctx.textBaseline = 'top';
+    // ctx.font = '20px Courier';
+    // ctx.fillText('Courier',50,50)
+
+    // ctx.font = '24px Comic Sans MS';
+    // ctx.fillText('Comic Sans',50,100);
+
+    // ctx.font = '18px Arial';
+    // ctx.fillText('Arial',50,150);
+
+    // ctx.fillText('Ohayoooo!',50,50);
+
+
+</script>
+
+
+</body>
+</html>

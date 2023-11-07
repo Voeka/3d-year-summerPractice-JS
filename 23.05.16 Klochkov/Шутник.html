@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Нажми на тело!</h1>
+    <div>
+
+    </div>
+
+
+
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>    
+        var n = 0;
+        var massiv = ['тук тук', 'Кто там?', 'Жнееееееееееееец X.X', ' ','Тук тук', 'А кто теперь', "Донтальер!",'Глупые шутки','Глупые шутки','Глупые шутки','Глупые шутки','Глупые шутки','Глупые шутки','Глупые шутки']
+        $('body').click(function(){
+            $('div').append('<p>'+massiv[n]+'</p>');
+
+
+            n++;
+        })
+    </script>
+</body>
+</html>

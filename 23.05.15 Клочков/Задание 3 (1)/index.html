@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <img src="human.jpg" id="human" alt="" style="display: none;">
+    <img src="airplane.jpg" id="airplane" alt="" style="display: none;">
+    <img src="star.jpg" id="star" alt="" style="display: none;">
+    <img src="bird.jpg" id="bird" alt="" style="display: none;">
+
+
+    <style>
+        body{
+            display: flex;
+            flex-direction: row;
+        }
+        .stats{
+            width: 10%;
+            /* height: 100%; */
+            border: 1px solid black;
+        }
+
+        canvas{
+            width: 90%;
+            height: 600px;
+            border: 1px solid gray;
+        }
+
+        .popup{
+            visibility: hidden;
+            position: absolute;
+            top: 25%;
+            left: 25%;
+            border: 5px solid black;
+            width: 400px;
+            height: 400px;
+        }
+    </style>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <div class="stats">
+        <p>Имя: <section class="Name"></section></p>
+        <p>Время: <section class="Time"></section></p>
+        <p>Спасёные: <section class="Point">0</section></p>
+        <p>Оставшиеся топливо: <section class="Fuel">30</section></p>
+    </div>
+    <canvas id="canvas" width="900" height="600">
+
+    </canvas>
+
+    <div class="popup">
+        <p>Имя: <section class="Name"></section></p>
+        <p>Время: <section class="Time"></section></p>
+        <p>Спасёные: <section class="Point">0</section></p>
+    </div>
+    <script>
+        
+
+        var humanimg = {
+            add: human
+        };
+        var starimg = {
+            add: star
+        };
+        var airplaneimg = {
+            add:airplane
+        };
+        var birdimg = {add:bird};
+
+      var name =   prompt('Ваше имя?','')
+      $('.Name').html(name);
+        
+        $('body').css({display:"flex",
+        backgroundColor:'skyblue'
+        })
+        var canvas = document.querySelector("canvas");
+        var ctx = canvas.getContext("2d");
+
+        let moves = {};
+
+        var w = canvas.width;
+        var h = canvas.height;
+        var Time = 0;
+
+        var player = {
+            x:5,
+            y:h/2,
+            width:30,
+            height:25,
+            speed:9,
+            score:0,
+            fuel:30
+        };
+
+        var humanFall = [];
+        var starsFall = [];
+        var birds = [];
+
+        var  createHuman = function(){
+            humanFall.push({
+                x:Math.random()*w,
+                y:0,
+                w:10,
+                h:20,
+                speedfall:3,
+                score:Math.round(Math.random()*5),
+                color:'green'
+            })
+        }
+
+        function moveHuman(){
+            ctx.fillStyle = 'green';
+            var n = 0;
+            for(let h of humanFall){
+                
+                h.y+=h.speedfall;
+                // ctx.fillRect(h.x,h.y,h.w,h.h);
+                ctx.drawImage(humanimg.add,h.x,h.y,h.w,h.h);
+
+                if((h.x>=player.x && h.x+h.w<player.x+player.width)&&(h.y>=player.y && h.y+h.h<player.y+player.height)){
+                    player.score+=h.score;
+                    $('.Point').html(player.score);
+                    humanFall.splice(n);
+                }
+
+
+                humanFall = humanFall.filter(h => 
+		        h.y < canvas.height
+	            );
+                n++;
+            }
+
+        }
+
+        var  createStar = function(){
+            starsFall.push({
+                x:Math.random()*w,
+                y:0,
+                w:10,
+                h:10,
+                speedfall:6,
+                fuel:10,
+                color:'yellow'
+            })
+        }
+
+        function moveStar(){
+            ctx.fillStyle = 'yellow';
+
+            for(let s of starsFall){
+                s.y+=s.speedfall;
+                // ctx.fillRect(s.x,s.y,s.w,s.h);
+                ctx.drawImage(starimg.add,s.x,s.y,s.w,s.h);
+
+                if((s.x>=player.x && s.x+s.w<player.x+player.width)&&(s.y>=player.y && s.y+s.h<player.y+player.height)){
+                    player.fuel+=s.fuel;
+                    starsFall.splice(s);
+                }
+
+
+
+                starsFall = starsFall.filter(s => 
+		            s.y < canvas.height
+	        
+                );
+            }
+
+            
+
+        }
+
+        var  createBird = function(){
+            birds.push({
+                x:w,
+                y:Math.random()*h,
+                w:10,
+                h:10,
+                speed:-4,
+                color:'red'
+            })
+        }
+
+        function moveBird(){
+            ctx.fillStyle = 'red';
+
+            for(let b of birds){
+                b.x+=b.speed;
+                // ctx.fillRect(b.x,b.y,b.w,b.h);
+                ctx.drawImage(birdimg.add,b.x,b.y,b.w,b.h);
+
+                if((b.x>=player.x && b.x+b.w<player.x+player.width)&&(b.y>=player.y && b.y+b.h<player.y+player.height)){
+                    clearInterval(drawer);
+                    clearInterval(fu);
+                    clearInterval(cre);
+                    $('canvas').fadeOut();
+
+
+
+                    $('.popup').fadeIn();
+
+                    $('.popup').css({
+                        visibility: "visible"
+                    })
+
+
+
+
+                }
+            }
+
+            
+
+            birds = birds.filter(b => 
+		        b.x < canvas.width && b.x > 0 &&
+		        b.y > 0 && b.y < canvas.height
+	        );
+        }
+
+        function move(){
+            ctx.fillStyle = 'blue'
+            if (moves.KeyW) {
+                if (player.y > 0)
+                    player.y -= player.speed;
+            }
+
+            if (moves.KeyS) {
+                if (player.y + player.height < canvas.height)
+                    player.y += player.speed;
+            }
+
+            if (moves.KeyD) {
+                if (player.x + player.width < canvas.width)
+                    player.x += player.speed;
+            }
+
+            if (moves.KeyA) {
+                if (player.x > 0)
+                    player.x -= player.speed;
+            }
+        }
+
+        function draw(){
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+           
+            console.log(player.x)
+            moveHuman();
+            moveStar();
+            moveBird();
+            move();
+            // ctx.fillRect(player.x, player.y, player.width, player.height);
+            ctx.drawImage(airplaneimg.add,player.x, player.y, player.width, player.height)
+        }
+
+       var drawer =  setInterval(draw,30);
+
+       var fu =  setInterval(function(){
+            player.fuel--;
+            $('.Fuel').html(player.fuel);
+            createBird();
+            Time++;
+            $('.Time').html(Time);
+        },1000);
+
+       var cre =  setInterval(function(){
+            createHuman();
+            createStar();
+            
+        },2000)
+
+        document.onkeydown = e => moves[e.code] = true;
+        document.onkeyup = e => moves[e.code] = false;
+    </script>
+</body>
+</html>

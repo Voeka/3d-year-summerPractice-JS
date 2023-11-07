@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Game</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+    <section class="start current">
+        <form action="#" class="container">
+            <h1>Freeway Rider</h1>
+
+            <img src="img/best.png" alt="best" width="80">
+            <h2 class="best-result">100</h2>
+
+            <input type="text" id="name" placeholder="Имя">
+            <br><br>
+            <div class="buttons">
+                <button class="start__button">НАЧАТЬ</button>
+                <button>
+                    <img src="img/icons/achieve.png" alt="icon" width="50">
+                </button>
+            </div>
+        </form>
+    </section>
+    <section class="game">
+        <aside>
+            <h1 class="username">{username}</h1>
+            <div class="info-block timer">00:00</div>
+            <div class="info-block points">
+                <img src="img/icons/counter.png" alt="points">
+                <span class="points__value">0</span>
+            </div>
+            <div class="info-block money">
+                <img src="img/icons/dollar_2.png" alt="money">
+                <span class="money__value">0</span>
+            </div>
+        </aside>
+        <div class="game-container">
+            <div class="gameplay">
+                <!-- <img src="img/cars/car_3.png" alt="car" class="car" style="top: 20px; left: 40px;"> -->
+
+                <img src="img/icons/money.png" alt="money" class="stack" style="top: 100px; left: 340px;">
+
+                <img src="img/walls/wall_1.png" alt="wall" class="wall" style="left: 525px">
+
+                <img src="img/player/player.png" alt="player" class="player">
+                <div class="border border-right"></div>
+            </div>
+        </div>
+    </section>
+    <section class="achievements">
+        <div class="container">
+            <h1>Достижения</h1>
+
+            <div class="items-container">
+                <div class="item">
+                    <img src="img/icons/achieve.png" alt="icon" width="40">
+                    <h3>Первая авария с машиной</h3>
+                </div>
+                <div class="item not-yet">
+                    <img src="img/icons/achieve.png" alt="icon" width="40">
+                    <h3>Первая авария с отбойником</h3>
+                </div>
+            </div>
+
+            <button>Назад</button>
+        </div>
+    </section>
+</main>
+
+
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+<script>
+var name = '';
+var time = 0;
+var score = 0;
+var money = 0;
+var width = $('.gameplay').width();
+var height = $('.gameplay').height();
+var xland = $('.gameplay').offset().left;
+var playername = '';
+var date;
+
+var min = 0;
+var sec = 0;
+
+
+var moves= {};
+
+var lastcarnum = 1;
+var lastcar = 'bi'+lastcarnum;
+var cars ={};
+var lastmoney = 1;
+var money = {};
+
+var player = {
+    x:$('.player').offset().left,
+    y:$('.player').offset().top,
+    w:$('.player').width(),
+    h:$('.player').height(),
+    speed:5
+    
+}
+
+
+
+
+$('.start__button').click(function(){
+    $('.start').fadeOut();
+    $('.game').offset({
+        top:0
+    });
+    playername = $('#name').val();
+    $('.username').html(playername);
+    date = new Date();
+
+    player.x = $('.player').offset().left;
+    player.y = $('.player').offset().top;
+
+    console.log(player.x);
+    console.log(player.y);
+
+    gamestart();
+
+})
+
+var backgroundpos = 0;
+
+ var bgm = setInterval(function(){
+    $('body').css({
+        'background-position-y': backgroundpos+'px'
+    })
+
+    backgroundpos++;
+
+},5)
+
+function createMoney(){
+
+    $('.gameplay').append('<img src="img/icons/money.png" alt="money" class="stack m'+lastmoney+'" style="top: 100px; left: 340px;">')
+    // $('.m'+lastmoney).offset({left:money['m'+lastmoney].x ,top:money['m'+lastmoney].y })
+    money['m'+lastmoney] ={
+        
+        timetodelete: 3
+    }
+    $('.m'+lastmoney).offset({left:Math.random()*width+xland ,top:Math.random()*height })
+
+
+
+    lastmoney++;
+
+}
+var hex = 1;
+function deleteMoney(){
+    for(var i =hex;i<lastmoney;i++){
+
+money['m'+i].timetodelete--;
+
+        if(money['m'+i].timetodelete<=0){
+            delete money['m'+i];
+            $('.m'+i).remove();
+            hex+=2;
+        }
+
+        if(player.x >= $('.m'+i).offset().left
+        // &&player.x+player.w <$('.m'+i).offset().left
+        ){
+            delete money['m'+i];
+            $('.m'+i).remove();
+            
+        }
+
+
+
+    }
+
+}
+
+function createCar(){
+    var type = Math.round(Math.random()*9)+1;
+
+    
+    $('.gameplay').append('<img src="img/cars/car_'+type+'.png" alt="car" class="car '+lastcar+'" style="top: -300px;">')
+
+    $('.bi'+lastcarnum).last().offset({left:Math.random()*(width-90)+xland})
+    cars[lastcar] = {
+        a: lastcar,
+        x: $('.bi'+lastcarnum).offset().left,
+        y: $('.bi'+lastcarnum).offset().top,
+        w: $('.bi'+lastcarnum).width(),
+        h: $('.bi'+lastcarnum).height(),
+        speed:Math.round( Math.random() * (5 - (-5))+(-5))
+    }
+
+    if(cars[lastcar].speed<0){
+        cars[lastcar].y = height;
+    } else if(cars[lastcar].speed==0){
+        cars[lastcar].speed=3;
+    }
+    lastcarnum++;
+    lastcar='bi'+lastcarnum;
+    // <img src="img/cars/car_3.png" alt="car" class="car" style="top: 20px; left: 40px;">
+
+}
+
+
+function moveCars(){
+    for(var i=1;i<lastcarnum;i++){
+        cars['bi'+i].y += cars['bi'+i].speed;
+
+        $('.bi'+i).offset({top:cars['bi'+i].y})
+
+        if(cars['bi'+i].x+cars['bi'+i].w>=player.x 
+        && cars['bi'+i].x<=player.x+player.w 
+        && cars['bi'+i].y<=player.y+player.h
+        &&cars['bi'+i].y+cars['bi'+i].h >= player.y
+        ){
+            clearInterval(game);
+            clearInterval(game2);
+            clearInterval(bgm);
+            alert("Game over")
+        }
+
+
+        if( cars['bi'+i].x< -200){
+            cars['bi'+i].remove();
+        }
+        if( cars['bi'+i].x>= height*2){
+            cars['bi'+i].remove();
+        }
+
+
+
+    }
+
+}
+
+
+
+function move(){
+            
+            if (moves.KeyW) {
+                if (player.y > 0)
+                    player.y -= player.speed;
+            }
+
+            if (moves.KeyS) {
+                if (player.y+player.h  < $('.gameplay').height())
+                    player.y += player.speed;
+            }
+
+            if (moves.KeyD) {
+                if (player.x  <$('.gameplay').offset().left+$('.gameplay').width()-player.w)
+                    player.x += player.speed;
+            }
+
+            if (moves.KeyA) {
+                if (player.x > $('.gameplay').offset().left)
+                    player.x -= player.speed;
+            }
+
+            $('.player').offset({left:player.x,top:player.y})
+        }
+        var game;
+       var game2;
+function gamestart(){
+    game = setInterval(function(){
+
+        move();
+        moveCars();
+        sec = Math.round(new Date() - date)/1000;
+
+        $('.timer').html(min+':'+sec);
+
+    },10)
+
+     game2 =  setInterval(function(){
+        createCar();
+        createMoney();
+        deleteMoney();
+    },2000)
+}
+
+document.onkeydown = e => moves[e.code] = true;
+document.onkeyup = e => moves[e.code] = false;
+
+</script>
+</body>
+</html>

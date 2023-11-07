@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="start"><p>Нажмите на любую кнопку клавиатуры чтобы начать игру</p></div>
+    <div class="player"><img src="img/hero.png" alt=""></div>
+    <div class="smash"></div>
+    <div class="stats">
+        <p>time: <samp class="time"></samp></p>
+        <p>hp: <samp class="hp"></samp></p>
+        <p>killed zombi: <samp class="kizombi"></samp></p>
+    </div>
+    
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        var started = 0;
+        var moves = {};
+        var width = 1920;
+        var height =1080;
+        var zombiId= 0;
+        var zombi = {
+            x: Math.random()*width,
+            toporbot : Math.round(Math.random()),
+            y: 0,
+            speed:0.5,
+            height:120,
+            width:80,
+            atx:0,
+            aty:0
+            
+        }
+
+        var zombis = []
+
+        var player = {
+            x: $('.player').position().left,
+            y:$('.player').position().top,
+            speed: 1,
+            height: 140,
+            width:160,
+            hp:100,
+            kizombi:0,
+            time:0
+        }
+
+        if(started==0){
+            $('html').on('keypress',function(){
+                $('.start').css({
+                    'display':'none'
+
+                })
+                started = 1;
+            })
+        }
+
+        var createZombi = function(){
+            zombis.push({
+                x: Math.random()*width,
+                toporbot : Math.round(Math.random()),
+                y: 0,
+                speed:0.5,
+                height:120,
+                width:80,
+                atx:0,
+                aty:0,
+                dead:1,
+                id:zombiId
+                
+            });
+            $('html').append('<div class="zombi" id="zombi'+zombiId+'"><img src="img/Zombi.png" alt=""></div>')
+            zombiId++;
+        }
+
+        var moveZombi = function(){
+            var i =0;
+            for(var z of zombis){
+                
+                
+                
+                if(z.x>player.x+player.width){
+                    z.atx=0;
+                    z.x-=z.speed;
+                } else if(
+                    
+                    z.x+z.width<player.x
+                ){
+                    z.atx=0;
+                    z.x+=z.speed;
+                }else{
+                    z.atx=1;
+                    z.x+=Math.random()*5-2.5
+                }
+
+                if(z.y>player.y+player.height){
+                    z.aty=0;
+                    z.y-=z.speed;
+                } else if(z.y+z.height<player.y){
+                    z.aty=0;
+                    z.y+=z.speed;
+                }else{
+                    z.aty=1;
+                    z.y+=Math.random()*5-2.5
+                }
+
+                if(z.aty==1&&z.atx==1){
+                    player.hp-=0.1;
+                }
+
+                $('#zombi'+i).offset({left:z.x,top:z.y})
+
+
+                if((z.x<=smashX)&&(z.x+z.width>smashX)&&(z.y<=smashY)&&(z.y+z.height>smashY)){
+                    $('#zombi'+z.id).remove(); 
+
+
+                    z.dead=0;
+                    player.kizombi++;
+                    zombis.splice(i,1);
+
+                }
+
+                
+
+                i++;
+
+                
+
+            }
+
+            
+        }
+
+        var coordX;
+        var coordY;
+        var smashX;
+        var smashY;
+
+        // Игра
+        setInterval(function(){
+            // var index = 0
+            // for(let z of zombis){
+            //     if(z.dead==0){
+            //         
+            //         zombis.splice(index,1);
+                    
+            //     }
+            //     index++
+            // }
+            
+                
+                move();
+                $(document).on("mousemove", function(e) {
+
+                coordX = e.pageX; // Позиция мыши по оси X
+                coordY = e.pageY; // Позиция мыши по оси Y
+
+                
+                });
+                if(moves.KeyE){
+                    $('html').append('<div class="smash"></div>')
+                    $('.smash').offset({left:coordX,top:coordY});
+                    smashX=coordX;
+                    smashY=coordY;
+                    setTimeout(function(){
+                        $('.smash').remove();
+                        smashX=-50;
+                        smashY=-50;
+                    },200)
+
+
+                }
+
+                $('.time').html();
+                $('.hp').html(player.hp);
+                $('.kizombi').html(player.kizombi);
+                                
+                moveZombi();
+                $('.player').offset({left:player.x,top:player.y})
+                
+        },10)
+
+        
+
+       setInterval(function(){
+        createZombi();
+       },1000);
+
+
+
+        // функция нажатий
+        function move(){
+            if (moves.KeyW) {
+                // console.log('w')
+                if (player.y > 0)
+                    player.y -= player.speed;
+                    
+            }
+
+            if (moves.KeyS) {
+                if (player.y + player.height < height)
+                    player.y += player.speed;
+            }
+
+            if (moves.KeyD) {
+                if (player.x + player.width < width)
+                    player.x += player.speed;
+            }
+
+            if (moves.KeyA) {
+                if (player.x > 0)
+                    player.x -= player.speed;
+            }
+
+            
+        }
+
+        document.onkeydown = e => moves[e.code] = true;
+        document.onkeyup = e => moves[e.code] = false;
+    </script>
+    
+</body>
+</html>

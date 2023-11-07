@@ -1,0 +1,163 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Aega',sans-serif;
+    font-size: 24px;
+}
+
+html{
+    overflow-x: hidden;
+}
+
+@font-face {
+    font-family: "Aega";
+    src: url("fonts/Aegean-8jJ2.ttf");
+  }
+
+body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo{
+    margin-top: 20px;
+    margin-left: 20px;
+    padding-bottom: 10px;
+    padding-right: 5px;
+    font-size: 64px;
+    border: 1px solid black;
+    width: max-content;
+}
+
+.regorin{
+    background-color: rgb(190, 190, 190);
+    padding: 5px;
+    
+}
+
+nav{
+    margin: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 40px;
+}
+
+/* О нас */
+
+
+.Deviz{
+    margin: auto
+}
+
+.Deviz *{
+    margin: auto;
+    text-align-last: center;
+}
+
+.dev{
+    color: rgb(190, 190, 190);
+    font-size: 32px;
+    text-shadow: black 2px 1px;
+}
+
+.lastfiT{
+    font-size: 28px;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.lastfive{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.lastfive:hover{
+    cursor: pointer;
+}
+
+
+.lastfive img{
+    display: block;
+}
+
+#idd2,#idd3,#idd4,#idd5{
+    display: none;
+}
+
+
+
+/* Каталог */
+
+.cataT{
+    margin: auto;
+    font-size: 36px;
+    margin-bottom: 50px;
+}
+
+
+.cataloge{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    
+}
+
+.cataloge div{
+    width: 15%;
+    margin-left: 4%;
+    margin-right: 4%;
+    height: max-content;
+}
+
+.cataloge div:hover{
+    cursor: pointer;
+}
+
+.cataloge div img{
+    width: 200px;
+    height: 100px;
+}
+
+/* Где мы */
+
+
+.map{
+    width: 50%;
+    height: 40%;
+    margin: auto;
+}
+
+.map:hover{
+    transform: scale(1.3);
+}
+
+.addr{
+    
+    margin: auto;
+    margin-top: 50px;
+}
+
+.add{
+    margin: auto;
+    margin-top: 10px;
+}
+
+
+
+/* Итем */
+
+.itemimg{
+    width: 30%;
+    height: 300px;
+    margin: auto;
+}
+
+.itemP{
+    margin: auto;
+    font-size: 28px;
+}

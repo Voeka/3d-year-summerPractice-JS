@@ -1,0 +1,322 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    color: blueviolet;
+    font-size: 18px;
+}
+
+
+
+header{
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+nav{
+    flex-direction: row;
+    justify-content: space-between;
+    margin-right: 5%;
+}
+
+nav a{
+    color: rgb(255, 85, 114);
+    text-decoration: none;
+}
+
+nav a:hover{
+    color: blueviolet;
+}
+
+nav *{
+    margin: 0 15px 0 15px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+nav .login{
+    padding: 5px 15px 5px 15px;
+    border-radius: 25px;
+    background-color: blueviolet;
+    border: 0;
+    color: white;
+}
+
+nav .login:hover{
+    background-color: rgb(255, 85, 114);
+}
+
+nav .login:active{
+    background-color: red;
+}
+
+
+.today{
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.pAcc{
+    font-size: 18px;
+    margin-bottom: 40px;
+}
+
+.search{
+    background-color: rgba(137, 43, 226, 0.123);
+    border: 0;
+    padding: 2%;
+    border-radius: 25px;
+    margin-bottom: 50%;
+}
+
+.search::placeholder{
+    color: rgba(104, 29, 104, 0.582);
+}
+
+.div1{
+    margin-top: 5%;
+    margin-left: 5%;
+    width: 35%;
+}
+
+.sec1{
+    background-image: url(Sec1.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position-x: right;
+}
+
+span{
+    color: yellow;
+    background-color: white;
+    font-size: 28px;
+}
+
+.blue{
+    color: blue;
+    margin-bottom: 25px;
+    margin-top: 15px;
+}
+
+.shadowvi{
+    color: rgb(230, 159, 230);
+}
+
+.sec2{
+    margin-top: 5%;
+}
+
+.sec2 h2{
+    flex-direction: row;
+    margin: auto;
+    font-size: 28px;
+
+}
+
+.cat{
+    flex-direction: row;
+    justify-content: space-evenly;
+    margin-top: 5%;
+}
+
+.obj{
+    text-align: center;
+}
+
+.obj img{
+    height: 30%;
+    width: 30%;
+    margin: auto;
+    
+}
+
+.sec3{
+    margin-top: 10%;
+    background-image: url(sec3.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-bottom: 10%;
+}
+
+
+.div3{
+    width: 32%;
+    
+    margin-left: 55%;
+}
+
+.div3 h2{
+    flex-direction: row;
+    font-size: 28px;
+    margin-bottom: 4%;
+
+}
+
+.div3 p{
+    margin-bottom: 8%;
+}
+
+.div3 button{
+    background-color: blueviolet;
+    border: blueviolet;
+    color: white;
+    padding: 2%;
+    /* text-align: center; */
+    border-radius: 25px;
+    width: 25%;
+    margin-bottom: 25%;
+}
+
+.div3 button p{
+    color: white;
+    margin: auto;
+}
+
+
+.sec4 h2{
+    margin: auto;
+    flex-direction: row;
+    font-size: 28px;
+    margin-bottom: 5%;
+}
+
+.boooks{
+    width: 60%;
+    margin: auto;
+}
+
+.look{
+    flex-direction: row;
+    justify-content: left;
+    margin-bottom: 5%;
+    
+}
+
+.look *{
+    font-size: 28px;
+    font-weight: bold;
+    /* color: rgb(0, 0, 179); */
+}
+
+.look p{
+    color: rgb(0, 0, 173);
+}
+
+.look .shadowvi{
+    color: rgb(147, 147, 255);
+    font-size: 20px;
+}
+
+.price{
+    margin-left: auto;
+    font-size: 30px;
+}
+
+.look img{
+    height: 25px;
+    margin-left: 5%;
+}
+
+.lookgood{
+    margin-bottom: 5%;
+}
+
+.lookgood .look{
+    margin-bottom: 1%;
+}
+
+.booook{
+    flex-direction: row;
+}
+
+.booook p{
+    display: block;
+    flex-wrap: nowrap;
+}
+
+.booook span{
+    display: block;
+    font-size: 20px;
+    float: right;
+    /* margin-right: auto; */
+}
+
+.booook img{
+    height: 250px;
+    margin: auto;
+    margin-right: 5%;
+}
+
+.boooks button{
+    width: 15%;
+    margin: auto;
+    padding: 5px 15px 5px 15px;
+    border-radius: 25px;
+    border: blueviolet;
+    background-color: blueviolet;
+}
+
+.boooks button p {
+    margin: auto;
+    color: white;
+}
+
+.sec4{
+    margin-bottom: 10%;
+}
+
+.sec5{
+    background-image: url(sec5.png);
+    background-repeat: no-repeat;
+    background-position-x:right ;
+    background-size: contain;
+    margin-bottom: 10%;
+}
+
+.sec5 h2{
+    font-size: 28px;
+    display: block;
+   /* text-align: justify; */
+   width: 50%;
+   margin-bottom: 10%;
+}
+
+.sec5 p{
+    margin-bottom: 10%;
+}
+
+.sec5 img{
+    margin-bottom: 35%;
+}
+
+.sec5 div{
+    width: 25%;
+    margin-left: 15%;
+}
+
+.sec5 span{
+    float: left;
+}
+
+
+
+footer{
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+footer img{
+    height: 40px;
+}
+
+.UnderFooter{
+    flex-direction: row;
+    margin: auto;
+    padding: 50px;
+}
+
+.UnderFooter img{
+    margin-left: 10px;
+}

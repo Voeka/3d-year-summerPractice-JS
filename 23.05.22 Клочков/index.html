@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+    
+</head>
+<body>
+
+    <div class="stats">
+        <p class="hp">100HP</p>
+        <p class="score">0 Score</p>
+        <p class="time">00:00</p>
+    </div>
+
+    <img src="img/player.png" class="player" alt="Player">
+
+    <div class="lands">
+
+    </div>
+    <!-- <img src="img/land.png" alt="" class="land" style="left: 600px;"> -->
+
+    <div class="guseLand"></div>
+
+    <!-- <img src="img/gusen.png" class="gusen" alt="" style="left: 500px;"> -->
+
+    <div class="ground">
+    </div>
+
+
+
+
+    
+</body>
+
+</html>
+<script src="jquery-3.7.0.js"></script>
+    <script>
+
+    gameStarted = 0;
+    
+    game = {
+        width : $('body').width(),
+        height : $('html').height()
+    }
+
+    player = {
+        x : $('.player').position().left,
+        y : $('.player').position().top,
+        width : $('.player').width(),
+        height:$('.player').height(),
+        jump : 0,
+        hp : 100,
+        timeM:0,
+        timeS : 0,
+        score : 0,
+        onObj:0
+        
+    }
+
+    console.log(game.width);
+    console.log(player.y);
+
+    islands = [];
+    guseid=0;
+    guse = [];
+
+    moves ={};
+
+
+
+    
+
+    function createIsland(){
+        var left = Math.random()*game.width*5
+        islands.push({
+            x:200,
+            y: left,
+        })
+        
+        $('.lands').append(
+            '<img src="img/land.png" class="land" style="left: '+left+'px">'
+        )
+    }
+
+
+    function createGus(){
+        for(var i=0;i<islands.length;i++){
+            var random = Math.round(Math.random()*5);
+
+            if(random==0){
+                guse.push({
+                    x:160,
+                    y:islands[i].y+80,
+                    width:40,
+                    height:40,
+                    id:guseid
+                });
+                
+                $('.guseLand').append(
+                    '<img src="img/gusen.png" class="gusen guse'+guseid+'" alt="" style="left: '+(islands[i].y+80)+'px;">'
+                     );
+
+                guseid++;
+                break;  
+            } else{
+                continue
+            }
+
+
+        }
+
+
+
+    }
+
+
+    function stats(){
+        $('.hp').html(player.hp+'HP');
+        $('.score').html(player.score+' Score');
+        $('.time').html(player.timeM+':'+player.timeS);
+
+        if(player.timeS>=60){
+            player.timeS=0;
+            player.timeM++;
+        }
+
+        $('.stats').offset({
+            left:player.x-game.width/4
+        })
+
+    }
+
+    function movecam(){
+        // if(player.x>=game.width/2){
+        //     if(moves.KeyD){
+        //         window.scrollBy(5,0)
+        //     }
+        //     if(moves.KeyA){
+        //         window.scrollBy(-5,0)
+        //     }
+        // }
+
+        if(player.x>=game.width/2){
+            window.scrollTo(player.x-game.width/2,0)
+        } else{
+            window.scrollTo(0,0);
+        }
+    }
+
+
+
+
+
+
+// Создать гиен
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    for(var i =0;i<30;i++){
+        createIsland();
+    }
+
+
+
+    for(var i = 0;i<40;i++){
+        createGus();
+    }
+
+
+    function eatGus(){
+        for(var i = 0;i<guse.length;i++){
+            if(Math.abs(guse[i].y-player.x)<=50 && Math.abs(guse[i].x-player.y)<=50){
+                console.log(guse[i].id);
+
+                $('.guse'+guse[i].id).remove();
+                
+                guse.splice(i,1);
+                
+                player.score++;
+                player.hp+=5;
+                
+                
+                break;   
+            }else{
+                continue
+            };
+
+        };
+
+        // guse.splice(i,1)
+        
+    }
+
+    function onObj(){
+        var onOBJT = 0
+        for(let i of islands){
+            if(player.x+player.width>=i.y &&
+            player.x<=i.y+200 &&
+            player.y+player.height <= i.x+15 &&
+            player.y+ player.height >= i.x
+
+            ){
+                onOBJT=1;
+            }
+            
+            
+            
+            if(onOBJT==1)
+            {
+                player.onObj =1;
+            }
+            else{
+                player.onObj = 0;
+            }
+        }
+
+        
+
+
+    }
+
+    console.log($('.ground').width())
+
+
+    function Jump(){
+
+        if(player.jump==0){
+            player.jump = 1;
+        setTimeout(function(){
+            player.jump=0
+        },900)
+        }
+        
+    }
+
+
+    function gravity(){
+        if(player.y<=520 &&player.jump==0 && player.onObj==0){
+            player.y+=5;
+        }
+
+
+    }
+
+    setInterval(function(){
+        $('.player').offset({
+            left:player.x,
+            top:player.y
+        });
+        move();
+        gravity();
+        onObj();
+        eatGus();
+        stats();
+        movecam();
+
+        if(player.jump==1){
+            player.y -= 5;
+        }
+    },10)
+
+    setInterval(function(){
+        player.timeS++;
+    },1000)
+
+
+    function move(){
+            
+            if (moves.KeyW) {
+                Jump();
+            }
+
+            if (moves.KeyS) {
+                if (player.y+player.height < 600 )
+                    player.y += 5;
+            }
+
+            if (moves.KeyD) {
+                // if (player.x+player.width < game.width)
+                    player.x += 5;      
+            }
+
+            if (moves.KeyA) {
+                if (player.x > 0)
+                    player.x -= 5;
+                    
+            }
+        }
+
+        document.onkeydown = e => moves[e.code] = true;
+        document.onkeyup = e => moves[e.code] = false;
+    </script>

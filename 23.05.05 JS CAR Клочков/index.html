@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+
+
+    <script>
+        var carHtml = '<img src="Car.png">';
+
+        
+
+        var Car = function(x,y){
+            this.x = x;
+            this.y = y;
+        }
+
+        Car.prototype.draw = function(){
+            
+            this.carElement = $(carHtml);
+            
+
+            this.carElement.css({
+                position:'absolute',
+                left:this.x,
+                top:this.y,
+                transform:'rotatey('+180+'deg)'
+            });
+
+            $('body').append(this.carElement);
+        }
+
+        Car.prototype.moveRight = function(speed){
+            this.x +=speed;
+            
+
+            this.carElement.css({
+                left: this.x,
+                top: this.y
+            })
+        }
+        Car.prototype.moveLeft = function(speed){
+            this.x -=speed;
+            
+
+            this.carElement.css({
+                left: this.x,
+                top: this.y
+            })
+        }
+        Car.prototype.moveTop = function(speed){
+            this.y -=speed;
+            
+
+            this.carElement.css({
+                left: this.x,
+                top: this.y
+            })
+        }
+        Car.prototype.moveBot = function(speed){
+            this.y +=speed;
+            
+
+            this.carElement.css({
+                left: this.x,
+                top: this.y
+            })
+        }
+
+        var tesla = new Car(20,20);
+        var nissan = new Car(200,200);
+
+        
+       
+        
+        tesla.draw();
+        nissan.draw();
+
+        setInterval(function(){
+            nissan.moveRight(Math.random()*10);
+            nissan.moveTop(Math.random()*5);
+            nissan.moveBot(Math.random()*5);
+            tesla.moveRight(Math.random()*10);
+            tesla.moveTop(Math.random()*5);
+            tesla.moveBot(Math.random()*5);
+        }, 50)
+        
+        
+
+    </script>
+    
+</body>
+</html>

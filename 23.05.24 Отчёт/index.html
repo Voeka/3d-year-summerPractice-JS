@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Веб-новелла</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="visualpart">
+
+        <img class='sold1' src="persons/1.jpg" alt="" style="left: 40%;">
+        <img class="sold2" src="persons/2.jpg" alt="" style="left: 50%; display: none;">
+
+
+    </div>
+    <div class="contextmenu">
+        <div class="text">
+
+        </div>
+        <div class="buttons">
+            <button class="NextStage">Следующая главая</button>
+            <button class="History">История</button>
+
+        </div>
+    </div>
+    
+
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
+    <script>
+        
+        glave1 = [['Солдат<br>','Стой кто идёт!'], 'Обратились к вам', ['Солдат<br>', 'Покажи свои руки!'], 'Вы послушно подняли руки', ['Солдат<br>','Иди сюда, медленно'],'Вы шаг за шагом идёте в сторону солдата', 'Вас что-то ударило по затылку', 'Вы потеряли сознание']
+        glave2 = ['Вы очнулись с болью у затылка', 'Вы находитесь в лесу на земле, связанные у дерева.','Перед вами два солдата, одного вы уже видели, а второго нет.', 'Они заметили что вы очнулись', ['Солдат1<br>','Ну что, выспался?'],['Солдат2<br>', "Я его слишком сильно ударил."],'Затем вас напоили из вляги',['Солдат1<br>', 'Как вас зовут?'],'......']
+
+        var glav = 1;
+        var dialog = -1;
+
+        $('.visualpart').click(function(){
+            dialog++;
+
+            if(glav==1){
+                $('.text').html(glave1[dialog]);
+            }
+            if(glav==2){
+                $('.text').html(glave2[dialog]);
+            }
+
+            if(glav==1 && dialog==5){
+                $('.sold1').animate({height:'70%'},2000)
+            }
+
+            if(glav==1&&dialog==6){
+                $('.visualpart').animate({'opacity': 0},500);
+                
+            }
+
+            if(glav==2&&dialog==-1){
+                $('.sold1').fadeOut().css({'left':'300px'
+                ,height:'70%'
+                });
+                $('.sold2').css({
+                    'display':'block',
+                    height:'70%'
+                }).fadeOut();
+            }
+
+            if(glav==2&&dialog==0){
+                $('.visualpart').animate({'opacity': 1},500)
+            }
+
+            if(glav==2&&dialog==2){
+                $('.sold1').fadeIn();
+                $('.sold2').fadeIn();
+            }
+
+
+            
+
+            if(glav==1&&dialog==glave1.length){
+                glav = 2;
+                dialog=-2;
+                $('.text').html('');
+            }
+
+
+        })
+
+        $('.NextStage').click(function(){
+            $('.visualpart').animate({'opacity': 0},500);
+            glav=2;
+            dialog=-2;
+            $('.text').html('');
+        })
+        
+
+    </script>
+</body>
+</html>

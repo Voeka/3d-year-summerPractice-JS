@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <canvas id="canvas" height="1000" width="1000" style="border: 1px solid black;"></canvas>
+
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+        // x = 70 y =50
+        var CreateSnowMan = function(x,y){ 
+            ctx.fillStyle = 'black';
+            ctx.beginPath();
+            ctx.arc(x,y,50,0,Math.PI*2,false)
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(x,y+120,70,0,Math.PI*2,false)
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(x,y+120,5,0,Math.PI*2,false)
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(x,y+90,5,0,Math.PI*2,false)
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(x,y+150,5,0,Math.PI*2,false)
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(x-20,y-10,5,0,Math.PI*2,false)
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(x+20,y-10,5,0,Math.PI*2,false)
+            ctx.fill();
+            ctx.fillStyle = 'orange';
+            ctx.beginPath();
+            ctx.arc(x,y+10,5,0,Math.PI*2,false)
+            ctx.fill();
+        }
+
+        CreateSnowMan(180,100);
+
+        var massiv = [[50,50],[50,100],[100,100],[100,50],[50,50]]
+        ctx.beginPath();
+        ctx.moveTo(massiv[0][0],massiv[0][1]);
+        ctx.strokeStyle='red';
+        for(i=1;i<massiv.length;i++){
+            
+            
+            // console.log( massiv[i][0]);
+            // console.log( massiv[i][1]);
+            ctx.lineTo(massiv[i][0],massiv[i][1]);
+            
+
+        }
+        ctx.stroke();
+        
+        $('#canvas').on('mousemove',function(event){
+            xm = event.pageX;
+            ym = event.pageY;
+            ctx.beginPath();
+            ctx.arc(xm,ym,3,0,Math.PI*2,false);
+            ctx.stroke();
+        })
+
+        var massivHuman = [[240,60,20,20],[250,80,250,120],[250,100,230,90],[250,100,270,90],[250,120,240,140],[250,120,260,140]];
+        
+        // ctx.beginPath();
+        // ctx.moveTo(massivHuman[1][0],massivHuman[1][1]);
+        // ctx.lineTo(massivHuman[1][3],massivHuman[1][4]);
+        // ctx.stroke();
+        ctx.strokeRect(massivHuman[0][0],massivHuman[0][1],massivHuman[0][2],massivHuman[0][3]);
+        
+        ctx.strokeStyle='red';
+        for(var i=1;i<massivHuman.length;i++){
+            ctx.beginPath();
+            ctx.moveTo(massivHuman[i][0],massivHuman[i][1]);
+            ctx.lineTo(massivHuman[i][2],massivHuman[i][3]);
+            ctx.stroke();
+            console.log(i);
+        }
+        
+    </script>
+    
+</body>
+</html>

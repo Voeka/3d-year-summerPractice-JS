@@ -1,0 +1,50 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    overflow: hidden;
+    
+}
+
+.player{
+    border: 1px solid black;
+    width: 120px;
+    height: 80px;
+    position: absolute;
+    left: 2%;
+    top: 40%;
+    
+    
+}
+
+.ground{
+    position: absolute;
+    top: 600px;
+    width: 500%;
+    height: 35% ;
+    background-image:linear-gradient(green,rgb(109, 49, 0));
+}
+
+.land{
+    position: absolute;
+    width: 200px;
+    top: 200px;
+    left: 200px;
+}
+
+.gusen{
+    position: absolute;
+    top: 160px;
+    width: 40px;
+}
+
+.stats{
+    width: 100px;
+    height: 80px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: gray;
+}

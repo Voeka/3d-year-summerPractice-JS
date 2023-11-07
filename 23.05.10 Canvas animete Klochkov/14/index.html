@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="500" style="border: 1px solid black;"></canvas>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+
+        var width = canvas.width;
+        var height = canvas.height;
+
+        var color = [
+            'red',
+            'green',
+            'yellow',
+            'blue',
+            'pink',
+            'orange',
+            'lime',
+            'purple',
+            'aqua',
+            'silver',
+            'grey',
+            'black'
+        ]
+
+        
+
+        function getRandomInt(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+        }   
+
+        var Ball = function(){
+            this.x = 100;
+            this.y = 100;
+            this.xSpeed = getRandomInt(-30,19);
+            this.ySpeed = getRandomInt(-30,19);
+            this.gcolor = color[getRandomInt(0,color.length)];
+        }
+
+        var circle = function(x,y,radius,fillCircle){
+            ctx.beginPath();
+            ctx.arc(x,y,radius,0,Math.PI*2,false);
+            if(fillCircle){
+                ctx.fill();
+            } else{
+                ctx.stroke();
+            }
+        };
+
+        Ball.prototype.draw = function(){
+            circle(this.x,this.y,3,true);
+        };
+
+        Ball.prototype.move = function(){
+            this.x += this.xSpeed;
+            this.y += this.ySpeed;
+        }
+
+        Ball.prototype.checkCollision = function(){
+            if(this.x<0||this.x>width){
+                this.xSpeed = -this.xSpeed;
+            }
+            if(this.y<0||this.y>height){
+                this.ySpeed = -this.ySpeed;
+            }
+        
+        };
+        var balls=[];
+
+        var ball = new Ball();
+        
+        
+        for(var i =0;i<90;i++){
+            balls[i] = new Ball();
+        }
+        
+            setInterval(function(){
+                ctx.clearRect(0,0,width,height);
+                for(i=0;i<balls.length;i++){
+                    ctx.fillStyle=balls[i].gcolor;
+                    
+                    balls[i].draw();
+                    balls[i].move();
+
+                    balls[i].checkCollision();
+                    ctx.strokeRect(0,0,width,height);
+                }
+        },30);
+    
+        
+    </script>
+</body>
+</html>
